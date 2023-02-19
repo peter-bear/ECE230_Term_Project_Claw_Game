@@ -12,7 +12,7 @@
 /*!
  * \brief Initializes ADC Ports for Use
  *
- * Sets P6.0 and P6.1 to tertiary module function
+ * Sets P6.0 and P6.1 to tertiary module function, as well as P5.2 and P5.4
  *
  * \return None
  */
@@ -30,9 +30,7 @@ void initADCPorts(void)
 /*!
  * \brief Configures ADC14 for Use
  *
- * Sequence-of-channels allows potentiometer result
- * to be stored in MEM1 and photoresistor result to
- * be stored in MEM2
+ * Sequence-of-channels allows multiple ADCs
  *
  * \return None
  */
@@ -42,7 +40,7 @@ void configureADC14(void)
      *      clock source - default MODCLK, clock prescale 1:1,
      *      sample input signal (SHI) source - software controlled (ADC14SC),
      *      Pulse Sample mode with sampling period of 16 ADC14CLK cycles,
-     *      Single-channel, single-conversion mode, 12-bit resolution,
+     *      Single-channel, single-conversion mode, 10-bit resolution,
      *      ADC14 conversion start address ADC14MEM1, and Low-power mode
      */
     ADC14->CTL0 = ADC14_CTL0_SHP                // Pulse Sample Mode
@@ -114,7 +112,7 @@ void ADC14_IRQHandler(void)
         resultReady = true;
         // not necessary to clear flag because reading ADC14MEMx clears flag
     }
-    // Check if interrupt triggered by ADC14MEM1 conversion value loaded
+    // Check if interrupt triggered by ADC14MEM3 conversion value loaded
     if (ADC14->IFGR0 & ADC14_IFGR0_IFG3)
     {
         photoVal = ADC14->MEM[3];
@@ -122,7 +120,7 @@ void ADC14_IRQHandler(void)
         // not necessary to clear flag because reading ADC14MEMx clears flag
     }
 
-    // Check if interrupt triggered by ADC14MEM1 conversion value loaded
+    // Check if interrupt triggered by ADC14MEM4 conversion value loaded
     if (ADC14->IFGR0 & ADC14_IFGR0_IFG4)
     {
         photoVal2 = ADC14->MEM[4];

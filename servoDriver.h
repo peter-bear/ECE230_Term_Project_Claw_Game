@@ -3,7 +3,7 @@
  * servoDriver.h
  *
  * Description: Servo motor driver for MSP432P4111 Launchpad.
- *              Assumes SMCLK configured with 48MHz HFXT as source.
+ *              Assumes SMCLK configured with 12 MHz DCO as source.
  *              Uses Timer_A2 and P5.6 (TA2.1)
  *
  *  Created on: 1/16/23

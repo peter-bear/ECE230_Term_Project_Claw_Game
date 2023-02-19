@@ -36,8 +36,8 @@ void initStepperMotor2(void) {
     // Configure CCR0 for Compare mode with interrupt enabled (no output mode - 0)
     TIMER_A1->CCTL[0] = 0b0000000000010000;
 
-    // Configure Timer_A0 in Stop Mode, with source SMCLK, prescale 12:1, and
-    //  interrupt disabled  -  tick rate will be 4MHz (for SMCLK = 48MHz)
+    // Configure Timer_A0 in Stop Mode, with source SMCLK, prescale 3:1, and
+    //  interrupt disabled  -  tick rate will be 4MHz (for SMCLK = 12MHz)
     // Configure Timer_A0 (requires setting control AND expansion register)
     TIMER_A1->CTL = 0b0000001000000100;
     TIMER_A1->EX0 = 0b0000000000000010;

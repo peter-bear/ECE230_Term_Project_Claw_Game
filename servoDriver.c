@@ -3,7 +3,7 @@
  * servoDriver.c
  *
  * Description: Servo motor driver for MSP432P4111 Launchpad.
- *              Assumes SMCLK configured with 48MHz HFXT as source.
+ *              Assumes SMCLK configured with 12 MHz DCO as source.
  *              Uses Timer_A2 and P5.6 (TA2.1)
  *
  *  Created on: 1/16/23
@@ -38,7 +38,7 @@ void initServoMotor(void) {
 
     // Configure TA2CCR1 for Compare mode, Reset/Set output mode, with interrupt disabled
 
-    // Configure Timer_A2 in Up Mode, with source SMCLK, prescale 16:1, and
+    // Configure Timer_A2 in Up Mode, with source SMCLK, prescale 6:1, and
     //  interrupt disabled  -  tick rate will be 2MHz (for SMCLK = 12MHz)
     // Configure Timer_A2 (requires setting control AND expansion register)
     TIMER_A2->EX0 = 0b0000000000000101;

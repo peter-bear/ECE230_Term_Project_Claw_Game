@@ -1,0 +1,141 @@
+/*! \file */
+/*!
+ * stepperMotor.h
+ *
+ * Description: Stepper motor ULN2003 driver for MSP432P4111 Launchpad.
+ *              Uses Timer_A3 and P2.7, P2.6, P2.5, P2.3
+ *
+ *  Created on: 01/09/2023
+ *      Author: Vineet Ranade & Yao Xiong
+ */
+
+#ifndef STEPPERMOTOR_H_
+#define STEPPERMOTOR_H_
+
+//*****************************************************************************
+//
+// If building with a C++ compiler, make all of the definitions in this header
+// have a C binding.
+//
+//*****************************************************************************
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include "msp.h"
+
+#define STEPPER_PORT                    P2
+#define STEPPER_MASK                    (0x00E8)
+#define STEPPER_IN1                     (0x0080)
+#define STEPPER_IN2                     (0x0040)
+#define STEPPER_IN3                     (0x0020)
+#define STEPPER_IN4                     (0x0008)
+
+#define INIT_PERIOD                     10000
+#define CLK_RATE                        4000000
+#define STEPS_PER_REV                   32*64*2
+#define SEC_PER_MIN                     60
+#define STEP_SEQ_CNT                    8
+#define MIN_RPM                         1
+#define MAX_RPM                         15
+#define CW_DIR                          1
+#define CCW_DIR                         0
+
+/*!
+ * \brief This function configures pins and timer for stepper motor driver
+ *
+ * This function configures P2.3, P2.5, P2.6, and P2.6 as output pins
+ *  for the ULN2003 stepper driver IN port, and initializes Timer_A3 to
+ *  increment step position with compare interrupt
+ *
+ * Modified bits 3, 5, 6, and 7 of \b P2DIR register and \b P2SEL registers.
+ * Modified \b TA3CTL register and \b TA3CCTL0 registers.
+ *
+ * \return None
+ */
+extern void initStepperMotor(void);
+
+
+/*!
+ * \brief This starts stepper motor rotation by turning on Timer_A3
+ *
+ * This function starts stepper motor rotation by turning on Timer_A3.
+ * Assumes stepper motor has already been configured by initStepperMotor().
+ *
+ * Modified \b TA3CTL register.
+ *
+ * \return None
+ */
+extern void enableStepperMotor(void);
+
+
+/*!
+ * \brief This stops stepper motor rotation by turning off timer
+ *
+ * This function stops stepper motor rotation by turning off Timer_A3.
+ * Stepper motor is still configured after calling this function.
+ *
+ * Modified \b TA3CTL register.
+ *
+ * \return None
+ */
+extern void disableStepperMotor(void);
+
+
+/*!
+ * \brief This increments step clockwise
+ *
+ * This function increments to next clockwise step position
+ *
+ * Modified bit 3, 5, 6, and 7 of \b P2OUT register.
+ *
+ * \return None
+ */
+extern void stepClockwise(void);
+
+
+/*!
+ * \brief This increments step counter-clockwise
+ *
+ * This function increments to next counter-clockwise step position
+ *
+ * Modified bit 3, 5, 6, and 7 of \b P2OUT register.
+ *
+ * \return None
+ */
+extern void stepCounterClockwise(void);
+
+/*!
+ * \brief Changes direction of stepper motor
+ *
+ * This function changes from clockwise to counter-clockwise or vice-versa
+ *
+ * \return None
+ */
+extern void toggleDirection(void);
+
+extern void setDirection(int dir);
+
+/*!
+ * \brief Changes rotation speed of stepper motor
+ *
+ * Updates TA3 CCR0
+ *
+ * \param RPM How fast the stepper motor should rotate
+ *
+ * \return None
+ */
+extern void setRPM(double RPM);
+
+
+//*****************************************************************************
+//
+// Mark the end of the C bindings section for C++ compilers.
+//
+//*****************************************************************************
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* STEPPERMOTOR_H_ */

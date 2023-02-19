@@ -253,7 +253,7 @@ void calculateBonus(void)
         }
 
         // Re-scale bonus score based on how much time elapsed between release and landing
-        if (bonus > BONUS_CUTOFF)
+        if (bonus > BONUS_CUTOFF && bonus < ONE_SECOND_TICKS)
         {
             bonus = (bonus - BONUS_CUTOFF) / BONUS_SCALE;
         }

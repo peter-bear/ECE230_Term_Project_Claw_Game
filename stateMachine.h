@@ -45,6 +45,7 @@ extern "C"
 #define MAX_16_BIT          65535
 #define BONUS_CUTOFF        4000
 #define BONUS_SCALE         1000
+#define ONE_SECOND_TICKS    32768
 
 int curState;
 
